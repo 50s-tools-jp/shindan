@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>副業ルート診断|40代・50代・60代の初心者向け</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF8F3;
+  --card:#FFFFFF;
+  --ink:#2E3A3F;
+  --ink-soft:#5B6A70;
+  --primary:#1D5C63;
+  --primary-deep:#143F45;
+  --accent:#E0922F;
+  --accent-soft:#FBEFD9;
+  --soft:#E9F0EC;
+  --line:#DCD6C8;
+  --radius:14px;
+  --shadow:0 2px 10px rgba(46,58,63,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:17px}
+body{
+  font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:640px;margin:0 auto;padding:24px 18px 60px}
+h1,h2,h3{line-height:1.5}
+
+/* ---------- 道のりプログレス ---------- */
+.route-progress{display:flex;align-items:center;gap:0;margin:18px 0 26px}
+.route-progress .stop{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--card);border:2.5px solid var(--line);flex:none;
+  transition:background .3s,border-color .3s;
+}
+.route-progress .stop.done{background:var(--primary);border-color:var(--primary)}
+.route-progress .stop.now{background:var(--accent);border-color:var(--accent);transform:scale(1.35)}
+.route-progress .leg{flex:1;height:0;border-top:3px dotted var(--line);transition:border-color .3s}
+.route-progress .leg.done{border-color:var(--primary)}
+.progress-label{font-size:.82rem;color:var(--ink-soft);text-align:right;margin-top:-16px}
+
+/* ---------- カード ---------- */
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:26px 22px;
+}
+
+/* ---------- スタート画面 ---------- */
+.eyebrow{
+  display:inline-block;background:var(--primary);color:#fff;
+  font-size:.8rem;letter-spacing:.12em;border-radius:999px;
+  padding:4px 16px;margin-bottom:14px;font-weight:700;
+}
+.title{font-size:1.7rem;font-weight:900;color:var(--primary-deep);margin-bottom:6px}
+.subtitle{color:var(--ink-soft);font-size:.95rem;margin-bottom:20px}
+.intro-points{list-style:none;margin:18px 0 24px}
+.intro-points li{
+  padding:8px 0 8px 34px;position:relative;font-size:.95rem;
+  border-bottom:1px dashed var(--line);
+}
+.intro-points li:last-child{border-bottom:none}
+.intro-points li::before{
+  content:"✓";position:absolute;left:6px;top:8px;
+  color:var(--accent);font-weight:900;
+}
+
+/* ---------- ボタン ---------- */
+.btn{
+  display:block;width:100%;border:none;cursor:pointer;
+  font-family:inherit;font-size:1.05rem;font-weight:700;
+  background:var(--primary);color:#fff;border-radius:999px;
+  padding:16px 20px;transition:transform .15s,background .2s;
+}
+.btn:hover{background:var(--primary-deep)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.btn.ghost{
+  background:transparent;color:var(--primary);
+  border:2px solid var(--primary);margin-top:12px;
+}
+.btn.ghost:hover{background:var(--soft)}
+
+/* ---------- 質問画面 ---------- */
+.q-number{font-size:.85rem;font-weight:700;color:var(--accent);letter-spacing:.08em;margin-bottom:6px}
+.q-text{font-size:1.25rem;font-weight:900;color:var(--primary-deep);margin-bottom:8px}
+.q-note{font-size:.88rem;color:var(--ink-soft);margin-bottom:18px}
+.opt{
+  display:block;width:100%;text-align:left;cursor:pointer;
+  font-family:inherit;font-size:1rem;font-weight:700;color:var(--ink);
+  background:var(--card);border:2px solid var(--line);border-radius:12px;
+  padding:15px 18px;margin-bottom:12px;line-height:1.6;
+  transition:border-color .15s,background .15s,transform .1s;
+}
+.opt:hover{border-color:var(--primary);background:var(--soft)}
+.opt:active{transform:scale(.99)}
+.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.back-link{
+  background:none;border:none;cursor:pointer;font-family:inherit;
+  color:var(--ink-soft);font-size:.88rem;margin-top:6px;padding:8px;
+  text-decoration:underline;
+}
+
+/* ---------- 結果画面 ---------- */
+.result-board{
+  background:var(--primary-deep);color:#fff;border-radius:var(--radius);
+  padding:28px 22px;margin-bottom:20px;position:relative;overflow:hidden;
+}
+.result-board::after{
+  content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;
+  border-radius:50%;background:rgba(255,255,255,.06);
+}
+.result-eyebrow{font-size:.82rem;letter-spacing:.15em;color:var(--accent);font-weight:700}
+.result-name{font-size:1.5rem;font-weight:900;margin:6px 0 4px}
+.result-catch{font-size:.95rem;color:#D8E4E2}
+.match-bar-wrap{margin-top:16px}
+.match-bar-label{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:5px}
+.match-bar{height:12px;background:rgba(255,255,255,.18);border-radius:999px;overflow:hidden}
+.match-bar>span{display:block;height:100%;background:var(--accent);border-radius:999px;width:0;transition:width 1s ease}
+
+.section-title{
+  font-size:1.05rem;font-weight:900;color:var(--primary-deep);
+  margin:26px 0 12px;padding-left:14px;position:relative;
+}
+.section-title::before{
+  content:"";position:absolute;left:0;top:6px;bottom:6px;width:5px;
+  border-radius:3px;background:var(--accent);
+}
+.reason-list{list-style:none}
+.reason-list li{
+  background:var(--soft);border-radius:10px;padding:10px 14px 10px 38px;
+  margin-bottom:8px;font-size:.93rem;position:relative;
+}
+.reason-list li::before{content:"●";position:absolute;left:14px;color:var(--primary);font-size:.7rem;top:14px}
+.step{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start}
+.step-num{
+  flex:none;width:34px;height:34px;border-radius:50%;
+  background:var(--primary);color:#fff;font-weight:900;
+  display:flex;align-items:center;justify-content:center;font-size:.95rem;
+}
+.step-body{font-size:.95rem;padding-top:3px}
+.step-body b{color:var(--primary-deep)}
+
+.advice-box{
+  background:var(--accent-soft);border:1.5px solid var(--accent);
+  border-radius:12px;padding:16px 18px;margin-bottom:12px;font-size:.93rem;
+}
+.advice-box .advice-head{font-weight:900;color:#9A6212;margin-bottom:4px;font-size:.95rem}
+
+.fact-row{display:flex;border-bottom:1px dashed var(--line);padding:10px 2px;font-size:.92rem}
+.fact-row dt{flex:none;width:9em;font-weight:700;color:var(--ink-soft)}
+.fact-row dd{flex:1}
+
+.links a{
+  display:block;background:var(--card);border:2px solid var(--line);
+  border-radius:12px;padding:13px 16px;margin-bottom:10px;
+  color:var(--primary);font-weight:700;text-decoration:none;font-size:.95rem;
+  transition:border-color .15s,background .15s;
+}
+.links a:hover{border-color:var(--primary);background:var(--soft)}
+.links a small{display:block;color:var(--ink-soft);font-weight:500;font-size:.8rem;margin-top:2px}
+.links a::after{content:" ↗";color:var(--accent)}
+.link-group{font-size:.82rem;font-weight:900;color:var(--ink-soft);margin:14px 0 8px;letter-spacing:.05em}
+
+.second-card{
+  background:var(--card);border:1.5px solid var(--line);border-radius:12px;
+  padding:18px;margin-top:8px;
+}
+.second-card .second-label{
+  font-size:.78rem;font-weight:700;color:#fff;background:var(--ink-soft);
+  border-radius:999px;padding:2px 12px;display:inline-block;margin-bottom:8px;
+}
+.second-card .second-name{font-weight:900;color:var(--primary-deep);font-size:1.1rem}
+.second-card p{font-size:.9rem;color:var(--ink-soft);margin-top:6px}
+
+details.compare{margin-top:24px;border:1.5px solid var(--line);border-radius:12px;background:var(--card)}
+details.compare summary{
+  cursor:pointer;padding:14px 18px;font-weight:900;color:var(--primary-deep);
+  list-style:none;font-size:.97rem;
+}
+details.compare summary::-webkit-details-marker{display:none}
+details.compare summary::after{content:"＋";float:right;color:var(--accent);font-weight:900}
+details.compare[open] summary::after{content:"−"}
+.compare-inner{padding:0 16px 16px;overflow-x:auto}
+table.cmp{width:100%;border-collapse:collapse;font-size:.82rem;min-width:540px}
+table.cmp th,table.cmp td{border:1px solid var(--line);padding:8px 9px;text-align:left;vertical-align:top}
+table.cmp th{background:var(--soft);font-size:.8rem;white-space:nowrap}
+table.cmp td:first-child{font-weight:700;white-space:nowrap}
+
+.credit{
+  margin-top:30px;font-size:.78rem;color:var(--ink-soft);text-align:left;
+  border-top:1px solid var(--line);padding-top:14px;line-height:1.7;
+}
+.disclaimer{font-size:.78rem;color:var(--ink-soft);margin-top:10px;line-height:1.7}
+
+.hidden{display:none}
+.fade-in{animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+@media (max-width:420px){
+  html{font-size:16px}
+  .title{font-size:1.45rem}
+  .result-name{font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== スタート画面 ===== -->
+  <section id="screen-start" class="fade-in">
+    <span class="eyebrow">全12問・約3分</span>
+    <h1 class="title">あなたに合う副業ルート診断</h1>
+    <p class="subtitle">仕事も子育ても一段落した今だから、逆に強みがある。40〜60代専用の設計で、年齢を武器にできる副業ルート(全7種)を判定します。</p>
+    <div class="card">
+      <ul class="intro-points">
+        <li>"長年の経験"と"これからの自分のペース"から<b>加重スコア方式</b>で判定</li>
+        <li>1位ルートの<b>具体的な始め方3ステップ</b>と公式サイトを案内</li>
+        <li>「SNSが苦手」「顔出しNG」などの<b>あなた専用アドバイス</b>付き</li>
+        <li>「自分のペースで長く続けられるか」も判定の<b>重要な軸</b>です</li>
+        <li>登録不要・回答はどこにも送信されません</li>
+      </ul>
+      <button class="btn" onclick="startQuiz()">診断をはじめる</button>
+    </div>
+  </section>
+
+  <!-- ===== 質問画面 ===== -->
+  <section id="screen-quiz" class="hidden">
+    <div class="route-progress" id="progress" aria-hidden="true"></div>
+    <p class="progress-label" id="progress-label"></p>
+    <div class="card" id="quiz-card">
+      <p class="q-number" id="q-number"></p>
+      <h2 class="q-text" id="q-text"></h2>
+      <p class="q-note" id="q-note"></p>
+      <div id="q-options"></div>
+      <button class="back-link" id="back-btn" onclick="goBack()">← 前の質問に戻る</button>
+    </div>
+  </section>
+
+  <!-- ===== 結果画面 ===== -->
+  <section id="screen-result" class="hidden">
+    <div class="result-board">
+      <p class="result-eyebrow">あなたの診断結果</p>
+      <h2 class="result-name" id="r-name"></h2>
+      <p class="result-catch" id="r-catch"></p>
+      <div class="match-bar-wrap">
+        <div class="match-bar-label"><span>あなたとの相性</span><span id="r-match-pct"></span></div>
+        <div class="match-bar"><span id="r-match-bar"></span></div>
+      </div>
+
+    <div id="r-persona" style="
+      margin-top:14px;
+      padding:12px 16px;
+      background:rgba(255,255,255,0.10);
+      border-radius:10px;
+      font-size:.95rem;
+      line-height:1.7;
+      color:#E8F4F0;
+    "></div>
+    </div>
+
+    <h3 class="section-title">このルートが選ばれた理由</h3>
+    <ul class="reason-list" id="r-reasons"></ul>
+
+    <h3 class="section-title">どんな副業?</h3>
+    <p id="r-desc" style="font-size:.95rem"></p>
+    <dl style="margin-top:12px">
+      <div class="fact-row"><dt>収入が出るまで</dt><dd id="r-timeline"></dd></div>
+      <div class="fact-row"><dt>初期費用の目安</dt><dd id="r-cost"></dd></div>
+      <div class="fact-row"><dt>最初の現実的な目標</dt><dd id="r-goal"></dd></div>
+    </dl>
+
+    <h3 class="section-title">始め方 3ステップ</h3>
+    <div id="r-steps"></div>
+
+    <h3 class="section-title">使うプラットフォーム(公式サイト)</h3>
+    <div class="links" id="r-links"></div>
+
+    <h3 class="section-title">あなたへのリアルアドバイス</h3>
+    <div id="r-advice"></div>
+
+    <h3 class="section-title">2番目に合うルート</h3>
+    <div class="second-card" id="r-second"></div>
+
+    <details class="compare">
+      <summary>7つのルートをまとめて比較する</summary>
+      <div class="compare-inner">
+        <table class="cmp">
+          <tr><th>ルート</th><th>初期費用</th><th>収入までの期間</th><th>型</th><th>こんな人向き</th></tr>
+          <tr><td>デジタル素材販売</td><td>0円</td><td>3ヶ月〜</td><td>資産型</td><td>画像・デザイン作りが好き・匿名希望</td></tr>
+          <tr><td>文章・情報コンテンツ販売</td><td>0円</td><td>3ヶ月〜</td><td>資産型</td><td>書くのが好き・経験を伝えたい</td></tr>
+          <tr><td>ブログ×アフィリエイト</td><td>0〜月1,500円</td><td>半年〜1年</td><td>資産型</td><td>コツコツ続けられる・SNSが苦手</td></tr>
+          <tr><td>SNS・動画での情報発信</td><td>0円〜</td><td>半年〜</td><td>資産型寄り</td><td>発信を楽しめる・継続できる</td></tr>
+          <tr><td>ハンドメイド・手作り品販売</td><td>材料費数千円〜</td><td>1〜3ヶ月</td><td>労働型寄り</td><td>手を動かして作るのが好き</td></tr>
+          <tr><td>スキル・作業の受注</td><td>0円</td><td>1ヶ月〜</td><td>労働型</td><td>早く収入が欲しい・経験を活かしたい</td></tr>
+          <tr><td>不用品販売→小さな物販</td><td>0円</td><td>今週から</td><td>労働型</td><td>まず1円でも稼ぐ体験をしたい</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <button class="btn ghost" onclick="restart()" style="margin-top:26px">もう一度診断する</button>
+
+    <p class="credit">この診断は、作者自身の2年間・15種類以上にわたる副業の試行錯誤の実体験と、AIが収集・分析した多数の情報を複合的に掛け合わせて設計しています。</p>
+    <p class="disclaimer">
+      ※本診断は副業選びの参考情報であり、収益を保証するものではありません。<br>
+      ※掲載リンクは作成時点の各サービス公式サイトです。利用前に必ず最新の利用規約・手数料をご確認ください。<br>
+      ※副業を始める際は、お勤め先の就業規則と、年間所得20万円超の場合の確定申告についてもご確認ください。
+    </p>
+  </section>
+
+</div>
+
+<script>
+"use strict";
+
+/* =========================================================
+   ルート定義
+   links は配列、または flags を受け取って配列を返す関数。
+   配列の要素: [表示名, URL, 説明] または ["@group", グループ見出し]
+========================================================= */
+const ROUTES = {
+  digital: {
+    name: "デジタル素材・テンプレート販売",
+    catch: "一度作れば休んでいる間も売れてくれる、自分のペースで育てる資産型ルート",
+    desc: "イラスト素材、便利な書式テンプレート、LINEスタンプ、スマホ壁紙、塗り絵データなどを作り、データのまま販売する副業です。在庫も発送もなく、一度出品すれば売れ続ける資産型。顔出し・本名なしで運営でき、画像生成やデザイン補助などAIとの相性も6ルートの中で随一です。海外マーケットに出す場合も、英語の壁はAI翻訳でほぼ解消できます。几帳面さや生活感覚から生まれる「使いやすいデザイン」は、長年の経験を持つ40〜60代ならではの強みです。",
+    timeline: "3ヶ月〜。出品数が増えるほど売れやすくなる積み上げ型",
+    cost: "0円〜(Canva無料版で制作可能。出品手数料はマーケットによって異なります。Etsyは1商品約30円+Payoneer年間約4,500円が必要。最新情報は各公式サイトでご確認ください)",
+    goal: "まず20点出品→月に1点売れる状態を作る",
+    steps: [
+      ["CanvaやAIツールで作れるものを決める", "カレンダー、家計簿テンプレート、メッセージカードなど「自分が欲しいもの」から始めると続きます。"],
+      ["マーケットに無料出品する", "商品画像(1枚目)が売上の8割を決めます。何がもらえるか一目で分かる画像にします。"],
+      ["タグと商品名を「買う人が検索する言葉」にする", "「かわいい イラスト」ではなく「敬老の日 カード 手作り」のように、用途+行事で付けるのがコツです。"]
+    ],
+    links: function(flags){
+      const g = [
+        ["@group","海外向けマーケット"],
+        ["Etsy 公式","https://www.etsy.com/","世界最大級のマーケット※1商品あたり約30円の出品手数料+Payoneer登録(年間約4,500円)が必要。費用・手順は公式サイトで要確認"],
+        ["Creative Fabrica 公式","https://www.creativefabrica.com/","デジタル素材専門の海外マーケット"]
+      ];
+      const j = [
+        ["@group","国内向けマーケット"],
+        ["BOOTH 公式","https://booth.pm/","デジタルデータをそのまま販売できる国内マーケット(pixiv運営)"],
+        ["minne 公式","https://minne.com/","ハンドメイド・素材販売の国内大手(GMOペパボ運営)"]
+      ];
+      const t = [
+        ["@group","制作ツール"],
+        ["Canva 公式","https://www.canva.com/ja_jp/","無料で使えるデザイン作成ツール"]
+      ];
+      if(flags.has("g_global")) return [].concat(g, j, t);
+      if(flags.has("g_jp"))     return [].concat(j, t);
+      return [].concat(g, j, t);
+    }
+  },
+  note: {
+    name: "文章・情報コンテンツ販売",
+    catch: "長年の経験がそのまま商品になる。書く速度も更新頻度も、自分のペースでいいルート",
+    desc: "noteの有料記事やKindle出版で、自分の経験・知識・ノウハウを文章にまとめて販売する副業です。一度書いた記事や本がその後も売れ続ける資産型。AIの活用法や、AIで効率化した副業の記録といったテーマは今まさに読まれやすく、年齢を重ねた人ほど書ける等身大の経験談が強みになります。",
+    timeline: "早くて1〜3ヶ月で初売上。安定までは半年〜",
+    cost: "0円〜(noteもKindle出版も出品は無料。売れたときの手数料が発生します。最新の手数料は各公式サイトでご確認ください)",
+    goal: "まず無料記事10本→有料記事1本(300〜500円)を1部売る",
+    steps: [
+      ["noteに無料登録し、プロフィールを整える", "本名でなくてもOK。「何について書く人か」が一目で分かる紹介文にします。"],
+      ["無料記事を10本書いて反応を見る", "自分の経験談で「スキ」が付きやすいテーマを探します。いきなり有料にしないのがコツ。"],
+      ["反応が良かったテーマを有料記事(300〜500円)に", "無料部分で7割見せて、核心を有料部分に。売れたらKindle出版にも展開できます。"]
+    ],
+    links: [
+      ["note(ノート)公式","https://note.com/","無料記事・有料記事の販売プラットフォーム"],
+      ["Kindle ダイレクト・パブリッシング","https://kdp.amazon.co.jp/","Amazonで電子書籍を無料出版できる公式サービス"]
+    ]
+  },
+  blog: {
+    name: "ブログ×アフィリエイト",
+    catch: "記事が24時間働いてくれる、王道の資産型ルート",
+    desc: "ブログ記事の中で商品やサービスを紹介し、読者が購入すると報酬が入る仕組みです。成果が出るまで時間はかかりますが、育った記事は寝ている間も収益を生みます。読者は検索エンジンから来るため、SNSでの発信が苦手でも成立する数少ないルートです。20〜30年分の経験や失敗談を交えた記事で読者を増やしたり、その経験を踏まえてさりげなく商品を紹介する記事を書いたりすることは、きっとこの世代こその強みになります。",
+    timeline: "半年〜1年。最初の半年はほぼ無収入と考えて始めるのが現実的",
+    cost: "無料ブログなら0円〜。本格運用はサーバー代 月1,000〜1,500円程度。サービス仕様は変更される場合があるため公式サイトでご確認ください",
+    goal: "まず30記事。初報酬(数百円)が出たら大成功のペース",
+    steps: [
+      ["ブログを開設してテーマを1つに絞る", "「50代からの健康」「子育てを終えて感じること」「老後に思うこと」「仕事をやりきって見えたこと」など、自分が100記事書けるテーマを選びます。"],
+      ["ASP(アフィリエイト仲介会社)に無料登録", "A8.net・もしもアフィリエイト・楽天アフィリエイトに登録すれば、紹介できる商品はほぼ網羅できます。"],
+      ["読者の悩みに答える記事を週1〜2本ずつ積む", "日記ではなく「○○ 選び方」のような検索される記事を。半年は収益を見ずに本数を積みます。"]
+    ],
+    links: [
+      ["はてなブログ公式","https://hatenablog.com/","無料で始められるブログサービス"],
+      ["WordPress.com 公式","https://wordpress.com/ja/","本格運用の定番ブログ作成サービス"],
+      ["A8.net 公式","https://www.a8.net/","国内最大級のアフィリエイトサービス(無料登録)"],
+      ["もしもアフィリエイト公式","https://af.moshimo.com/","Amazon・楽天の商品も紹介できるASP(無料登録)"],
+      ["楽天アフィリエイト公式","https://affiliate.rakuten.co.jp/","楽天市場の商品を紹介できる公式プログラム"]
+    ]
+  },
+  sns: {
+    name: "SNS・動画での情報発信",
+    catch: "発信の積み重ねが「フォロワー」という資産になるルート",
+    desc: "InstagramやYouTube、Threads、音声配信などで決めたテーマの発信を続け、フォロワーが育ったら広告収益・アフィリエイト・自分の商品販売につなげる副業です。成果まで時間はかかりますが、過去の投稿や動画は残って働き続けます。50代の等身大の発信は同世代から「自分にもできそう」と共感されやすく、年齢そのものが最大の武器になる分野です。",
+    timeline: "半年〜。収益化の条件(YouTubeは登録1,000人など)を超えるまでが勝負",
+    cost: "0円〜(スマホ1台で開始可。機材投資は収益が出てから。各プラットフォームの収益化条件は変更される場合があるため公式サイトでご確認ください)",
+    goal: "テーマを1つ決めて、まず30投稿(動画なら10本)続ける",
+    steps: [
+      ["発信テーマを1つに絞る", "「50代の○○」のように立場+テーマで決めます。不特定多数に向けた発信では、結局誰にも届きません。"],
+      ["週2回の固定ペースで30投稿続ける", "最初の30投稿は「伸びる型」を探す実験期間。反応が良かった形式を見つけたら、それを繰り返します。"],
+      ["フォロワーが育ったら収益の入口を作る", "楽天ROOMなどのアフィリエイト、自分のnoteやデジタル商品への案内。発信が「売り場への道」になります。"]
+    ],
+    links: [
+      ["Instagram 公式","https://www.instagram.com/","写真・リール動画での発信プラットフォーム"],
+      ["YouTube 公式","https://www.youtube.com/","動画発信の最大手。広告収益化プログラムあり"],
+      ["Threads 公式","https://www.threads.com/","文章中心の発信SNS(Instagram連携)"],
+      ["stand.fm 公式","https://stand.fm/","顔出し不要の音声配信プラットフォーム"],
+      ["楽天ROOM 公式","https://room.rakuten.co.jp/","楽天商品を紹介して収益化できる公式サービス"]
+    ]
+  },
+  skill: {
+    name: "スキル・作業の受注",
+    catch: "20〜30年かけて積んだ経験が、今はじめて『商品』になるルート",
+    desc: "ココナラで相談・制作サービスを売ったり、クラウドワークスやランサーズで作業(ライティング・データ入力・文字起こしなど)を受けたりして、スキルや時間を直接収入に変える副業です。商品を作って売れるのを待つ必要がなく、6ルートの中で最も早く確実に収入につながります。実績ゼロでも応募できる「初心者歓迎」案件が常にあるのも安心材料です。「20年以上の実務経験」や「子育ての経験」は、プロフィールに書いた瞬間に信頼になります。",
+    timeline: "最短1ヶ月以内。6ルート中で2番目に早い",
+    cost: "0円〜(登録無料。報酬から手数料が引かれます。手数料率は変更される場合があるため公式サイトでご確認ください)",
+    goal: "初心者歓迎案件で初受注→評価5件を集める",
+    steps: [
+      ["「頼まれがちなこと」と「できる作業」を書き出す", "資料作り、文章チェック、相談相手、コツコツ系の入力作業…自分には当たり前のことが商品になります。"],
+      ["まず小さく受注する", "クラウドワークスの初心者歓迎タスク案件に3件応募(教えるのが得意ならココナラにワンコイン出品でもOK)。最初は実績作りと割り切ります。"],
+      ["評価が5件たまったら単価を上げる", "実績が見えると一気に受注しやすくなります。教える系が好評ならストアカで講座化も可能です。"]
+    ],
+    links: function(flags){
+      const teach = [
+        ["ココナラ 公式","https://coconala.com/","スキルや相談を売り買いできる国内最大級マーケット"],
+        ["ストアカ 公式","https://www.street-academy.com/","教えたい人と学びたい人をつなぐ講座プラットフォーム"]
+      ];
+      const work = [
+        ["クラウドワークス 公式","https://crowdworks.jp/","国内最大級のクラウドソーシング(初心者歓迎案件が多数)"],
+        ["ランサーズ 公式","https://www.lancers.jp/","大手クラウドソーシングサービス"]
+      ];
+      return flags.has("teach") ? [].concat(teach, work) : [].concat(work, teach);
+    }
+  },
+  handmade: {
+    name: "ハンドメイド・手作り品の販売",
+    catch: "手を動かす時間そのものが、この世代の最高の副業になるルート",
+    desc: "アクセサリー・布小物・陶芸・レジン・編み物など、手作りの作品をネットで販売する副業です。趣味の延長で始められ、作ること自体が楽しいので続きやすいのが最大の強みです。長年の経験から生まれる「丁寧な仕事」と「生活感覚に根ざしたデザイン」は、この世代ならではの武器。完成品を売るだけでなく、作り方を教える講座への展開もできます。",
+    timeline: "1〜3ヶ月で初売上が狙える。リピーターが付くと安定します",
+    cost: "材料費 数千円〜。出品自体は無料(売れたときに手数料)",
+    goal: "まず10点出品→初売上→レビューを1件もらう",
+    steps: [
+      ["売るジャンルを1つに絞って10点作る", "「布小物の店」「レジンアクセサリーの店」のように1ジャンルに絞るほうが、見つけてもらいやすくなります。"],
+      ["minneとCreemaに無料出品する", "自然光で撮った写真を5枚以上。サイズ・素材・お手入れ方法を丁寧に書くと信頼されます。季節の行事(母の日・敬老の日)の1〜2ヶ月前に出品するのがコツです。"],
+      ["売れた商品の色違い・サイズ違いを増やす", "ゼロから新作を作るより、売れた物の横展開が効率的です。レビューのお願いも忘れずに。"]
+    ],
+    links: [
+      ["minne 公式","https://minne.com/","国内最大級のハンドメイドマーケット(GMOペパボ運営)※出品無料"],
+      ["Creema 公式","https://www.creema.jp/","クオリティ重視のハンドメイドマーケット※出品無料"],
+      ["Etsy 公式","https://www.etsy.com/","世界最大級のハンドメイド・クラフトマーケット※1商品あたり約30円の出品手数料+Payoneer登録(年間約4,500円)が必要。費用・手順は公式サイトで要確認"]
+    ]
+  },
+  resale: {
+    name: "不用品販売 → 小さな物販",
+    catch: "今週中に「初めての売上」を体験できる最速ルート",
+    desc: "まず家の不用品をフリマアプリで売って「ネットで物を売る」一連の流れを体験し、慣れたら小さく仕入れ販売に広げる副業です。元手ゼロ・特別なスキル不要で、6ルート中もっとも早くお金になります。ここで身につく「売れる写真・説明文・値付け」の感覚は、他のどの副業に進んでも一生使える基礎になります。これまでの生活で積み重なったモノはこの世代のほうが豊富で、始める元手には事欠きません。",
+    timeline: "最短で今週中。不用品がなくなった後の継続が次の課題",
+    cost: "0円〜(売れたときに手数料+送料が発生します。手数料率は各サービスで異なるため公式サイトでご確認ください)",
+    goal: "まず不用品10点を売り切って、売る流れを体に覚えさせる",
+    steps: [
+      ["家の不用品を10点集めて写真を撮る", "明るい場所で、傷も正直に撮るのが高評価のコツ。本・服・食器は特に売れやすい定番です。"],
+      ["フリマアプリに出品して相場を学ぶ", "同じ商品の「売り切れ」価格を検索してから値付けします。売れる感覚がつかめます。"],
+      ["慣れたら「売れた物の傾向」で小さく仕入れる", "いきなり大量仕入れは禁物。1点ずつ、利益数百円から。ここから先は在庫リスクの管理が本番です。"]
+    ],
+    links: [
+      ["メルカリ 公式","https://jp.mercari.com/","国内最大のフリマアプリ(匿名配送が標準)"],
+      ["ラクマ 公式","https://fril.jp/","楽天グループのフリマアプリ(手数料が比較的低め)"],
+      ["Yahoo!フリマ 公式","https://paypayfleamarket.yahoo.co.jp/","Yahoo!のフリマサービス"]
+    ]
+  }
+};
+
+const ROUTE_KEYS = Object.keys(ROUTES);
+
+/* =========================================================
+   質問と加重スコア
+========================================================= */
+const QUESTIONS = [
+  {
+    text: "副業に使える時間は、1週間にどのくらいありますか?",
+    note: "仕事も子育ても一段落したこの世代。時間はあるけれど、無理なく使いたいのが本音です。現実的な数字で選んでください。",
+    options: [
+      { label:"週1〜3時間(すきま時間が中心)", pts:{resale:2,note:1,skill:1,sns:-1}, trait:"すきま時間で進められる", flag:"lowtime" },
+      { label:"週4〜7時間(平日夜か週末に少し)", pts:{note:2,digital:1,blog:1,skill:1,sns:1,handmade:1}, trait:"週数時間をコツコツ確保できる" },
+      { label:"週8時間以上(まとまった時間が取れる)", pts:{blog:2,sns:2,skill:2,note:1,digital:1,handmade:2}, trait:"まとまった作業時間を確保できる" }
+    ]
+  },
+  {
+    text: "文章を書くことは好きですか?",
+    note: "上手かどうかではなく、「苦にならないか」が基準です。",
+    options: [
+      { label:"好き。書き始めると止まらないことがある", pts:{note:3,blog:3,sns:1}, trait:"文章を書くのが好き" },
+      { label:"普通。必要なら書ける", pts:{note:1,blog:1,skill:1}, trait:"必要な文章は書ける" },
+      { label:"苦手。できれば書きたくない", pts:{note:-2,blog:-2,digital:1,resale:2,sns:1}, trait:"文章以外で勝負できる" }
+    ]
+  },
+  {
+    text: "「作ること」について、あてはまるものは?",
+    note: "得意かどうかではなく、好きかどうかで選んでください。",
+    options: [
+      { label:"手を動かして物を作るのが好き(手芸・アクセサリー・陶芸など)", pts:{handmade:3,digital:-1}, trait:"手を動かす物づくりが好き", flag:"craft" },
+      { label:"パソコンやAIで画像・デザインを作るのが好き", pts:{digital:3,sns:1,handmade:-1}, trait:"デジタルの物づくりが好き" },
+      { label:"どちらも好き・どちらも興味ある", pts:{digital:2,handmade:2}, trait:"デジタルも手作りも楽しめる" },
+      { label:"どちらも苦手・あまり興味がない", pts:{digital:-2,handmade:-2,note:1,skill:1,resale:1}, trait:"制作以外の強みを活かせる" }
+    ]
+  },
+  {
+    text: "ChatGPTなどのAIツールについては?",
+    note: "AIが苦手でも大丈夫。正直に答えるほど、あなたに合ったアドバイスが出ます。",
+    options: [
+      { label:"すでに使っている・抵抗はない", pts:{digital:2,note:2,blog:1,sns:1}, trait:"AIを味方につけられる", flag:"ai_user" },
+      { label:"興味はある。これから覚えたい", pts:{digital:1,note:1}, trait:"AIをこれから学ぶ意欲がある", flag:"ai_new" },
+      { label:"よく分からない・少し不安", pts:{resale:1,skill:1,digital:-1}, trait:"AIなしでも始められる", flag:"ai_anx" }
+    ]
+  },
+  {
+    text: "SNS(Instagram・Threadsなど)での発信は?",
+    options: [
+      { label:"楽しめそう・続けられそう", pts:{sns:4,skill:1}, trait:"SNS発信を楽しめる" },
+      { label:"匿名・控えめになら、できる", pts:{note:1,blog:1,digital:1,sns:1}, trait:"匿名でなら発信できる" },
+      { label:"苦手・できれば避けたい", pts:{sns:-3,blog:1,digital:1,resale:1,handmade:1}, trait:"SNSに頼らない方法が合う", flag:"sns" }
+    ]
+  },
+  {
+    text: "人と直接やり取りする仕事(相談対応・教える・受注のやり取りなど)は?",
+    options: [
+      { label:"得意。よく頼られる・相談されるほうだ", pts:{skill:3,sns:1,note:1}, trait:"人と関わる仕事が得意", flag:"teach" },
+      { label:"内容や相手による", pts:{skill:1}, trait:"場面によっては対応できる" },
+      { label:"苦手。できれば避けたい", pts:{skill:-2,digital:1,blog:1}, trait:"一人で完結する作業に向いている", flag:"solo" }
+    ]
+  },
+  {
+    text: "副業の初期費用はどのくらいかけられますか?",
+    options: [
+      { label:"できれば0円で始めたい", pts:{note:1,resale:2,skill:1,blog:-1,handmade:-1}, trait:"無料で始められる", flag:"zero" },
+      { label:"1,000〜3,000円程度なら払える", pts:{blog:2,note:1,digital:1}, trait:"小さな固定費なら投資できる" },
+      { label:"たとえ数万円でも、先行投資と思って払える", pts:{blog:1,sns:1,resale:1,handmade:2}, trait:"必要な先行投資ができる" }
+    ]
+  },
+  {
+    text: "収入は、いつ頃から欲しいですか?",
+    note: "焦らなくていいのが、この世代の強みのひとつです。あなたの本音で選んでください。",
+    options: [
+      { label:"今月〜来月にでも。まず稼ぐ体験がしたい", pts:{resale:3,skill:2,blog:-2,sns:-2,note:-1,handmade:-1}, trait:"早く結果を出したい", flag:"fast" },
+      { label:"3ヶ月〜半年くらいで形になれば", pts:{skill:1,note:1,digital:1,handmade:2}, trait:"数ヶ月単位で育てられる" },
+      { label:"1年かけてもいい。長く続く収入源を作りたい", pts:{blog:3,note:2,digital:2,sns:2}, trait:"資産型の収入源を作りたい", flag:"asset" }
+    ]
+  },
+  {
+    text: "顔や本名を出すことについては?",
+    options: [
+      { label:"気にしない。出してもいい", pts:{skill:2,sns:3,blog:1}, trait:"信頼感を出しやすい" },
+      { label:"本名は出したくない(ニックネームならOK)", pts:{note:1,blog:1,digital:1,sns:1}, trait:"ニックネームで活動できる" },
+      { label:"顔も名前も絶対に出したくない", pts:{digital:2,blog:1,note:1,resale:1,sns:-1}, trait:"完全匿名で運営できる", flag:"anon" }
+    ]
+  },
+  {
+    text: "ご自身の性格に一番近いのは?",
+    options: [
+      { label:"コツコツ型。決めたことを毎日少しずつ続けられる", pts:{blog:3,note:2,sns:2,digital:1,handmade:2}, trait:"コツコツ積み上げられる" },
+      { label:"短期集中型。やる気のある時に一気にやりたい", pts:{resale:1,skill:1}, trait:"集中して一気に進められる" },
+      { label:"波がある。気分が乗らない時期もある", pts:{digital:2,note:1,resale:1,blog:-1,sns:-2}, trait:"自分のペースで進められる", flag:"wave" }
+    ]
+  },
+  {
+    text: "商品を売るなら、どちらの市場に興味がありますか?",
+    note: "海外向けでも、英語はAI翻訳で十分対応できます。",
+    options: [
+      { label:"海外にも売ってみたい", pts:{digital:1}, trait:"海外市場にも挑戦できる", flag:"g_global" },
+      { label:"まずは日本国内で", pts:{}, trait:"国内市場でじっくり始められる", flag:"g_jp" },
+      { label:"どちらでも・まだ決めていない", pts:{}, trait:"市場を柔軟に選べる", flag:"g_both" }
+    ]
+  }
+];
+
+/* 各ルートの理論上の最高点(相性%の計算用) */
+const MAX_SCORE = {};
+ROUTE_KEYS.forEach(k => {
+  MAX_SCORE[k] = QUESTIONS.reduce((sum, q) => {
+    const best = Math.max(...q.options.map(o => o.pts[k] || 0));
+    return sum + Math.max(best, 0);
+  }, 0);
+});
+
+/* =========================================================
+   フラグ別リアルアドバイス(全フラグ×6ルート)
+========================================================= */
+const ADVICE = {
+  sns: {
+    head: "SNSが苦手なあなたへ",
+    body: {
+      digital: "マーケット内の検索だけに頼ると、初売上までどうしても時間がかかります。そこで、出品した商品画像をPinterestに週1枚ピンすることだけ加えてみてください。顔出し不要、説明文は商品名そのままで大丈夫です。余裕が出てきたらThreadsに週1〜2回、制作の様子を一言つぶやくだけでも入口が増えます。少しずつでいいので、作品が見つけてもらえる道を増やしていきましょう。",
+      note: "拡散を頑張る必要はありませんが、書いた記事が誰にも見つからないのはもったいないです。まずはnoteの中だけでできる集客から。同じテーマの書き手さんの記事に「スキ」を1日10分つけてまわるだけで、読みに来てくれる人が現れます。慣れたらThreadsに週1回、「今日こんな記事を書きました」の一言+リンクだけ投稿してみてください。文章が書けるあなたなら、一言投稿はきっと思っているより簡単です。",
+      blog: "実はブログは、SNSが苦手な人にいちばん向いた選択です。読者は検索から来るので、発信や交流は本来不要。ただ開設から数ヶ月は検索にもなかなか載らない「無風期間」があります。そこで、記事を書いたらアイキャッチ画像をPinterestに1枚ピンする、これだけ習慣にしてみてください。記事が貯金、ピンは呼び鈴くらいの気持ちで、少しずつ読まれる入口を増やしていきましょう。",
+      sns: "正直にお伝えすると、このルートはSNSが主戦場なので、苦手意識との相性には注意が必要です。それでも挑戦するなら、顔出しなしで成立する形式(手元だけの動画・文字スライド・音声配信)を選び、週2投稿の低めのペースから。台本や投稿文はAIに手伝ってもらえば負担はかなり減ります。無理のない形から、少しずつ慣らしていきましょう。",
+      skill: "ココナラもクラウドワークスもサイトの中で仕事が見つかる仕組みなので、SNS発信は不要です。その代わりプロフィール文があなたの営業マンになります。「事務経験20年」「子育て歴25年」のように数字で経歴を書くことだけは丁寧に。発信が苦手でも、誠実なプロフィールと納期厳守だけで十分選ばれていきますよ。",
+      resale: "フリマアプリはSNSが一切いらない世界なので、安心して取り組んでください。明るい写真と、傷も正直に書く誠実な説明文だけで評価は積み上がります。あなたに合った静かな戦い方で、まず1点売ってみましょう。"
+    }
+  },
+  fast: {
+    head: "「早く収入が欲しい」あなたへ、正直な話",
+    body: {
+      digital: "正直にお伝えすると、デジタル素材は初売上まで2〜3ヶ月かかるのが普通です。焦って値下げするより、並行して家の不用品をメルカリで2〜3点売ってみてください。「売れた!」という体験が、制作を続ける何よりの燃料になります。出品数はあなたを裏切らないので、コツコツ積んでいきましょう。",
+      note: "文章コンテンツで今月中の収入は、正直かなり難しいです。もし「まず1円でも稼ぐ体験」が欲しいなら、並行して不用品をフリマで売ってみてください。その間も記事は財産として積もっていきます。焦らなくて大丈夫、書いたものは消えませんから。",
+      blog: "ブログは半年〜1年かかる長距離走で、「今月稼ぎたい」気持ちとの相性は正直よくありません。おすすめは二刀流です。即金はクラウドワークスのタスク案件や不用品販売で確保しつつ、ブログは「育てる畑」として週1〜2記事。お金の不安を別で抑えると、ブログも焦らず続けられますよ。",
+      sns: "SNS発信は収益化ライン(YouTubeなら登録1,000人など)を超えるまで時間がかかります。即金は不用品販売やクラウドワークスで確保し、発信は「半年後の資産づくり」と割り切るのが精神的にも楽です。今日の投稿が半年後のあなたを助けてくれますから、気長に積んでいきましょう。",
+      skill: "あなたの希望にぴったり合ったルートです。今週中にクラウドワークスで「初心者歓迎」のタスク案件(アンケート・データ入力など)に3件応募してみてください。単価は数百円でも、実績と評価が次の案件の名刺になります。最初の1件が取れれば流れがつかめますから、まず気軽に3件、行ってみましょう。",
+      resale: "まさに「早く稼ぐ体験」のためのルートです。長い社会人生活で培ったモノを見る目は、ここで存分に活きます。今日中に3点出品してみてください。売れたお金より「自分にも売れた」という自信のほうが大きな収穫です。ただし不用品が尽きた後の仕入れは1点ずつ慎重に。小さく早く、を合言葉に進みましょう。"
+    }
+  },
+  ai_anx: {
+    head: "AIはまだよく分からない——それ、この世代では普通です",
+    body: {
+      digital: "AIを最初から使いこなす必要はありません。まずはCanvaのテンプレートを少し編集するところから始められます。慣れてきたら「背景を消す」ボタンを1つ押してみる、それで十分AIデビューです。道具は後から付いてきますから、まず1点作ってみましょう。",
+      note: "AIが使えなくても、あなたの経験談はあなたにしか書けません。まずは普通に書いて大丈夫。慣れてきたら、書いた文章の誤字チェックだけAIに頼んでみてください。「こんなに楽なのか」と分かれば、少しずつ味方にしていけますよ。",
+      blog: "最初はAIなしで大丈夫です。慣れてきたら「この記事の見出し案を5つ考えて」と相談するところから試してみてください。全部書かせる必要はまったくなく、相談相手として使うだけで執筆がぐっと楽になります。焦らず一歩ずつで大丈夫です。",
+      sns: "投稿は自分の言葉で十分です。迷ったときに「この投稿文、もっと読みやすくして」とAIに添削だけ頼んでみてください。それくらいの距離感から始めれば、不安なく付き合えます。あなたの等身大の言葉こそが、同世代に届く一番の武器ですから。",
+      skill: "AIが使えなくてもできる案件はたくさんあります(アンケート回答、文字起こしの確認、データ入力など)。むしろ「人の目で丁寧に確認できる」ことが評価される世界です。今のあなたのままで始められますから、安心して一歩目を踏み出しましょう。",
+      resale: "フリマはAIなしで完結します。もし商品説明を書くのが面倒になってきたら、そのときだけAIに下書きを頼んでみてください。便利さを実感する入口として、ちょうどいい練習になりますよ。"
+    }
+  },
+  anon: {
+    head: "顔も名前も出したくないあなたへ",
+    body: {
+      digital: "このルートは完全匿名と最も相性が良い選択です。ショップ名とロゴだけでブランドが作れます。一点だけ、国内マーケットで販売する際の特定商取引法の表記は、プラットフォームの非公開設定が使えるか登録時に確認しておくと安心です。プライバシーを守りながら、堂々と活動していきましょう。",
+      note: "noteはニックネーム+イラストアイコンで問題なく運営できます。名前の代わりに「50代・元会社員」「60代・主婦歴30年」のような立場をプロフィールに書けば、同世代の読者に一番刺さります。年齢と経験を隠さないことが、この世代の最大の武器になります。匿名でも信頼は作れますから、安心して書き始めてください。",
+      blog: "ブログは完全匿名で運営できる代表格です。運営者情報はニックネームでOK。ASP登録時の本名と振込口座は外部に公開されないので心配いりません。守りを固めたうえで、のびのび書いていきましょう。",
+      sns: "顔出しなしの発信は十分可能です。手元だけの動画、文字スライド、イラストアイコン、音声配信(stand.fm)など選択肢はたくさんあります。声も出したくなければ、Threadsの文字発信という道もあります。出せる範囲だけで勝負する発信者はたくさんいますから、自分の安心できる形を選びましょう。",
+      skill: "ココナラはニックネーム+アイコンで匿名運営が可能です。ビデオ通話ではなくテキスト(チャット)完結型のサービスに絞れば、顔も声も出さずに済みます。匿名でも、経歴を具体的な数字で書けば信頼は十分作れますよ。",
+      resale: "メルカリは匿名配送が標準なので、住所も本名も相手に知られずに取引できます。6ルートの中でもプライバシー面で一番安心して始められる場所です。"
+    }
+  },
+  lowtime: {
+    head: "使える時間が限られているあなたへ",
+    body: {
+      digital: "すきま時間と相性の良いルートです。「平日にアイデアをスマホにメモ→週末に2点作って出品」のサイクルを作ってみてください。月8点ペースでも1年で約100点。出品数がそのまま資産になりますから、小さな積み重ねを信じて続けましょう。",
+      note: "自分のペースで、長く続けることが一番の正解です。週1本、1,000〜1,500字で十分。大作を書こうとせず、すきま時間にスマホの音声入力で下書きを溜めて、週末にまとめて整える方式が続きます。この世代が持つ経験談の重みは、短い記事でも十分伝わりますよ。",
+      blog: "自分のペースを守りながら進めるなら「質より定期性」です。週1本、決めた曜日に必ず出す。これだけ守れば1年で50記事になります。完璧な記事を月1本より、70点の記事を週1本。今から3年後、その景色を見られるのはこの世代ならではの特権です。",
+      sns: "毎日投稿は必要ありません。週2回に絞り、1回の撮影や作成で2〜3本分まとめて作り置きするのがコツです。すきま時間は新規投稿よりコメント返しに使うほうが、フォロワーとの関係が育ちます。細く長く、が一番強いですよ。",
+      skill: "時間を切り売りする形式(ビデオ通話1時間など)は、今の時間的余裕では負担が大きいので避けるのが無難です。テキスト完結の相談サービスや、すきま時間でできる小さなタスク案件を中心に。短い時間でも、確実に収入につながるのがこのルートの良さです。",
+      resale: "出品は1点5分あればできます。「週末に10点まとめて撮影→平日に1日1点出品」と分ければ、すきま時間だけで十分回せます。無理のないペースで、まず10点売り切ってみましょう。"
+    }
+  },
+  wave: {
+    head: "気分に波があるあなたへ",
+    body: {
+      digital: "40〜60代、自分のリズムを大切にするのは当然のことです。このルートは、そのペースにいちばん優しい設計になっています。調子の良い時に作り置きして出品しておけば、休んでいる間も商品が売れてくれます。「休む=ゼロになる」仕事ではないので、波と上手に付き合いながら続けていきましょう。",
+      note: "毎日更新は目標にしないでください。40〜60代、自分のペースで長く続けることが、どんな頑張りよりも価値があります。乗っている日に3本下書きを書き、調子が出ない週はそれを小出しに公開する「貯金方式」が合っています。書けない時期に自分を責めないことが、一番のコツですよ。",
+      blog: "ブログは継続が命なので、対策は「予約投稿」です。調子の良い日に2〜3本書いて公開日をずらして設定しておけば、表向きは安定更新に見えます。波を仕組みで吸収して、気楽に続けていきましょう。",
+      sns: "更新が止まると伸びにくくなるのがSNSの正直なところです。なので頻度は週2など低めに固定し、調子の良い日に作り置き+予約投稿で波を吸収してください。「毎日がんばる」より「止まらない仕組み」を作るほうが、あなたには合っていますよ。",
+      skill: "受注すると返信義務が発生するのがこのルートの注意点です。「お返事は2〜3日以内」とサービス説明に明記し、同時受付数を絞れる設定にしておけば、調子が出ない時期に追い詰められません。自分を守る設定をしてから始めましょう。",
+      resale: "発送期限だけは気分に関係なく守る必要があります。調子が出ない週は新規出品を止める、という調整をすれば無理なく続けられます。在庫は逃げませんから、自分のペースで大丈夫です。"
+    }
+  },
+  solo: {
+    head: "一人で黙々と進めたいあなたへ",
+    body: {
+      digital: "購入者とのやり取りはほとんど発生しません(たまに質問が来る程度)。よくある質問を商品説明に先回りして書いておけば、さらに静かに運営できます。一人の時間がそのまま資産になる、あなた向きのルートです。",
+      note: "noteはコメントが来ても返信義務はありません。執筆から販売まで、誰とも話さず完結できます。自分のペースで、安心して書き進めてください。",
+      blog: "ブログは6ルート中もっとも「一人で完結」できる副業です。読者とのやり取りはほぼ発生しません。黙々と積み上げるのが得意なあなたの強みが、そのまま活きる場所です。",
+      sns: "発信は必要ですが、コメント対応は必須ではありません。「いいね」を返すだけの運用でも大丈夫ですし、DMを閉じる設定もできます。交流より投稿の質で勝負するスタイルで、自分の心地よい距離感を保ちましょう。",
+      skill: "正直にお伝えすると、お客様とのやり取りがこのルートの本体なので、相性には注意が必要です。選ぶならテキスト完結型+定型文の整備をセットで。あるいはデータ入力のような、事務的な連絡だけで済む受託案件を中心にすれば、負担をかなり抑えられますよ。",
+      resale: "メルカリのやり取りは定型文のコピペでほぼ完結します。プロフィールに「コメントなし即購入OK」と書いておけば、会話ゼロの取引も普通にできます。静かに、着実に売っていきましょう。"
+    }
+  },
+  zero: {
+    head: "0円で始めたいあなたへ",
+    body: {
+      digital: "制作はCanva無料版、出品も無料。売れた時に手数料が引かれるだけなので、金銭リスクは完全にゼロです。投資すべきものがあるとすれば「時間」だけ。安心して、まず1点作ってみましょう。",
+      note: "noteもKindle出版も完全無料で、かかるのは売れた時の手数料だけ。つまり売れるまで1円もかかりません。リスクゼロで始められるのですから、気軽に1本目を書いてみましょう。",
+      blog: "無料のはてなブログから始めて、月数千円の収益が見えてからWordPress(月1,000円程度)に引っ越す順番なら、初期費用0円でスタートできます。最初からサーバー契約は不要です。身軽に始めて、育ってきたら投資しましょう。",
+      sns: "スマホ1台あれば今日から始められます。照明やマイクなどの機材は、収益が出てからで十分。最初はスマホ+自然光、これで戦えます。お金より「続ける仕組み」に頭を使いましょう。",
+      skill: "登録も出品も無料、仕入れも在庫もなし。6ルートの中でも金銭リスクが最も小さい部類です。失うものがないのですから、思い切って最初の応募をしてみましょう。",
+      resale: "売るのは家にある物なので、元手は文字通り0円です。手数料10%と送料だけ値付けの時に忘れずに。ノーリスクで「商売の基礎」が学べる、最高の練習場ですよ。"
+    }
+  },
+  asset: {
+    head: "「資産型の収入」を目指すあなたへ",
+    body: {
+      digital: "まさに資産型の代表ルートです。特に「行事もの」(年賀状・母の日・敬老の日の素材など)は毎年その季節が来るたびに売れる、利回りの良い資産になります。1〜2ヶ月先の行事を先回りして作るのが勝ちパターンですよ。",
+      note: "記事は書いた瞬間から資産になります。意識してほしいのは「古くならないテーマ」を選ぶこと。時事ネタより、3年後の40〜60代が読んでも役立つ経験談のほうが長く売れ続けます。この世代にしか書けない視点が、あなたの最大の差別化です。じっくり良い資産を作っていきましょう。",
+      blog: "資産型を目指すあなたにとって、ブログは本命の選択です。ただし資産になるのは「検索され続ける記事」だけで、日記は資産になりません。1記事ごとに「誰がどんな言葉で検索して来るか」を決めてから書く。この一手間が、数年働く記事を生みますよ。",
+      sns: "発信を資産にするコツは「検索されるテーマ」を選ぶことです。流行ネタは一瞬で消えますが、ハウツーやレシピ系の動画は数年再生され続けます。ストックになる投稿を意識して、未来の自分への仕送りを積んでいきましょう。",
+      skill: "受託は手を止めると収入も止まる労働型です。資産型に近づけるコツは、同じ質問に何度も答えていることに気づいたら、それを記事や講座資料にまとめて販売すること。相談業は「コンテンツの種集め」と考えると、二段構えの戦略になりますよ。",
+      resale: "物販は労働型ですが、無駄にはなりません。ここで身につく「売れる写真・説明文・値付け」の技術を、次のデジタル販売やコンテンツ販売に持ち込むのが王道の進み方です。今は基礎トレ期間と考えて、楽しんで取り組みましょう。"
+    }
+  },
+  ai_user: {
+    head: "AIをすでに使えるあなたへ",
+    body: {
+      digital: "AIで画像のたたき台を作り、Canvaで仕上げる流れなら制作速度が大きな武器になります。量産できる分、出品前の質チェックだけは人の目で丁寧に。また各マーケットのAI生成物の取り扱いルールは出品前に一度確認しておくと安心です。あなたの強みを存分に活かしましょう。",
+      note: "AIを使えること自体が、今いちばん売れやすいテーマです。あなたがAIを副業に活かす過程の試行錯誤は、そのまま同世代読者への商品になります。「やってみた記録」を残しながら進めば、一石二鳥ですよ。",
+      blog: "構成案やリサーチはAIに任せ、体験談の部分は自分の言葉で書く。この分担が検索で勝つコツです。読者が知りたいのはAIにも書ける一般論ではなく、あなただけの実体験ですから、そこに時間を集中させましょう。",
+      sns: "台本・キャプション・画像作りをAIで時短できれば、発信頻度を無理なく上げられます。これは大きな武器です。ただし投稿の「声」はあなた自身の言葉で。効率と等身大のバランスが取れれば、強い発信者になれますよ。",
+      skill: "AIを使った文章作成サポートや画像作成代行は、受託でも単価が上がりやすい分野です。「AIが使える50代」はまだ希少なので、プロフィールに堂々と書きましょう。その一行が、選ばれる理由になります。",
+      resale: "商品説明文の下書きをAIに任せれば、出品スピードが倍になります。さらにここで売れ筋を掴んだら、デジタル素材販売への展開もあなたなら早いはず。物販を入口に、次の資産型へ繋げていきましょう。"
+    }
+  }
+};
+
+// ハンドメイドルート用アドバイス追加(既存ADVICEの各bodyにhandmadeキーを追加)
+(function(){
+  const H = ADVICE;
+  H.sns.body.handmade    = "ハンドメイド販売でSNSは強力な集客ツールですが、苦手なら必須ではありません。まずはminneやCreemaの中の検索から売れる体験を積みましょう。余裕が出たらPinterestに週1枚、作品写真をピンするだけで十分です。顔出し不要、説明文は商品名そのままでOK。少しずつ作品が見つけてもらえる入口を増やしていきましょう。";
+  H.fast.body.handmade   = "ハンドメイドは6ルートの中では比較的早く売上が立つほうです。コツは「季節もの」。今から1〜2ヶ月後の行事(母の日・敬老の日・クリスマスなど)に合わせた商品を作ると、初売上がぐっと近づきます。焦らず、でも季節を味方につけて進みましょう。";
+  H.ai_anx.body.handmade = "ハンドメイド販売はAIなしで完全に完結します。必要なのはスマホのカメラと、丁寧な商品説明だけ。もし商品説明を書くのが面倒になってきたら、そのときだけAIに下書きを頼んでみてください。でも今は、作ることに集中して大丈夫ですよ。";
+  H.anon.body.handmade   = "ショップ名での活動で問題ありません。ただし発送時の差出人名と、特定商取引法に基づく住所表記が必要になります。minneには住所を非公開にできる設定がありますので、登録時に確認しておくと安心です。プライバシーを守りながら、堂々と活動していきましょう。";
+  H.lowtime.body.handmade= "時間が限られているなら、制作時間が1時間以内で作れる小さな商品に絞るのが鉄則です。凝った大作は時給換算で苦しくなります。小さくて単価が取れるものを探して、自分のペースで少しずつ積んでいきましょう。";
+  H.wave.body.handmade   = "受注生産(オーダー)は納期に追われるので、波のある時期は避けましょう。作り置きできる定番商品を中心にすれば、調子の良い時期に在庫を作り、そうでない時期は販売だけ、という無理のない運営ができます。自分のペースを大切に続けましょう。";
+  H.solo.body.handmade   = "購入後のメッセージ対応は発生しますが、定型文を用意しておけば最小限で済みます。オーダーメイドは打ち合わせが発生するので、既製品中心の運営がおすすめです。静かに、でも確実に積み上げていきましょう。";
+  H.zero.body.handmade   = "出品自体は無料ですが、材料費だけはかかります。まず家にある材料や100円ショップの材料で試作し、売れる手応えが出てから材料をまとめ買いする順番にすれば、持ち出しを最小にできます。小さく始めて、手応えを感じてから広げていきましょう。";
+  H.asset.body.handmade  = "ハンドメイドは制作時間がかかる分、純粋な資産型とは少し違います。資産型に近づけるには、人気が出たデザインを『作り方レシピ』や『型紙データ』としてデジタル販売する展開がおすすめです。作品と教材の二刀流で、あなたの技術を資産にしていきましょう。";
+  H.ai_user.body.handmade= "AIで商品説明文の下書きや、販売画像のテキスト部分を作れば、出品作業がかなり楽になります。また、売れ筋の傾向分析もAIに相談できます。作る作業はあなたの手で、それ以外の時間短縮にAIを賢く使っていきましょう。";
+})();
+
+/* 表示優先順(該当フラグが多い場合は上位4つまで表示) */
+const ADVICE_ORDER = ["sns","fast","ai_anx","anon","lowtime","wave","solo","zero","asset","ai_user"];
+
+/* =========================================================
+   状態管理
+========================================================= */
+let current = 0;
+let answers = [];
+
+function $(id){ return document.getElementById(id); }
+
+function startQuiz(){
+  current = 0;
+  answers = [];
+  $("screen-start").classList.add("hidden");
+  $("screen-result").classList.add("hidden");
+  $("screen-quiz").classList.remove("hidden");
+  renderQuestion();
+  window.scrollTo({top:0});
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  $("q-number").textContent = "Q" + (current+1) + " / " + QUESTIONS.length;
+  $("q-text").textContent = q.text;
+  $("q-note").textContent = q.note || "";
+  $("q-note").style.display = q.note ? "block" : "none";
+
+  const box = $("q-options");
+  box.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "opt";
+    b.textContent = opt.label;
+    b.onclick = () => answer(i);
+    box.appendChild(b);
+  });
+
+  $("back-btn").style.visibility = current === 0 ? "hidden" : "visible";
+  renderProgress();
+
+  const card = $("quiz-card");
+  card.classList.remove("fade-in");
+  void card.offsetWidth;
+  card.classList.add("fade-in");
+}
+
+function renderProgress(){
+  const p = $("progress");
+  p.innerHTML = "";
+  for(let i = 0; i < QUESTIONS.length; i++){
+    const stop = document.createElement("span");
+    stop.className = "stop" + (i < current ? " done" : i === current ? " now" : "");
+    p.appendChild(stop);
+    if(i < QUESTIONS.length - 1){
+      const leg = document.createElement("span");
+      leg.className = "leg" + (i < current ? " done" : "");
+      p.appendChild(leg);
+    }
+  }
+  $("progress-label").textContent = "あと" + (QUESTIONS.length - current) + "問";
+}
+
+function answer(optIndex){
+  answers[current] = optIndex;
+  if(current < QUESTIONS.length - 1){
+    current++;
+    renderQuestion();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }else{
+    showResult();
+  }
+}
+
+function goBack(){
+  if(current > 0){
+    current--;
+    renderQuestion();
+  }
+}
+
+/* =========================================================
+   集計と結果表示
+========================================================= */
+function calcScores(){
+  const scores = {};
+  ROUTE_KEYS.forEach(k => scores[k] = 0);
+  const flags = new Set();
+
+  answers.forEach((optIndex, qi) => {
+    const opt = QUESTIONS[qi].options[optIndex];
+    for(const k in opt.pts){ scores[k] += opt.pts[k]; }
+    if(opt.flag) flags.add(opt.flag);
+  });
+  return { scores, flags };
+}
+
+function rankRoutes(scores){
+  return ROUTE_KEYS.slice().sort((a,b) => {
+    if(scores[b] !== scores[a]) return scores[b] - scores[a];
+    return (scores[b]/MAX_SCORE[b]) - (scores[a]/MAX_SCORE[a]);
+  });
+}
+
+function collectReasons(topKey){
+  const reasons = [];
+  answers.forEach((optIndex, qi) => {
+    const opt = QUESTIONS[qi].options[optIndex];
+    if((opt.pts[topKey] || 0) >= 2) reasons.push(opt.trait);
+  });
+  if(reasons.length === 0){
+    answers.forEach((optIndex, qi) => {
+      const opt = QUESTIONS[qi].options[optIndex];
+      if((opt.pts[topKey] || 0) >= 1) reasons.push(opt.trait);
+    });
+  }
+  return reasons.slice(0, 4);
+}
+
+function renderLinks(route, flags){
+  const items = (typeof route.links === "function") ? route.links(flags) : route.links;
+  return items.map(l => {
+    if(l[0] === "@group"){
+      return '<p class="link-group">' + l[1] + '</p>';
+    }
+    return '<a href="' + l[1] + '" target="_blank" rel="noopener noreferrer">' + l[0] +
+           '<small>' + l[2] + '</small></a>';
+  }).join("");
+}
+
+
+function getPersonaLine(routeKey, flags) {
+  const f = flags;
+  switch(routeKey) {
+    case 'digital':
+      if(f.has('sns') && f.has('anon'))    return '人知れず、作ったものが静かに売れていく副業を求めているあなたへ。';
+      if(f.has('ai_user') && f.has('asset')) return 'AIと二人三脚で、あなたにしか作れない素材を商品にする、今の時代に合った副業です。';
+      if(f.has('lowtime'))                 return 'すきま時間をコツコツ積んで、じわじわ育てたいあなたへ。';
+      return '一度作ったものが何度でも売れる、自分のペースで続けられる副業が合っています。';
+
+    case 'note':
+      if(f.has('asset') && !f.has('sns') && !f.has('anon')) return '長年の経験を言葉にして、書いた分だけ資産が積み上がる働き方が合っています。';
+      if(f.has('anon') || f.has('sns'))    return '顔も名前も出さず、経験という名の武器を活かして静かに稼ぐ道があります。';
+      if(f.has('ai_user'))                 return 'AIと二人三脚で、あなたにしか書けない経験談を商品にする、今の時代に合った副業です。';
+      return 'これまでの経験と言葉の力を、そのまま収入に変えられるあなたへ。';
+
+    case 'blog':
+      if(f.has('sns') && f.has('asset'))   return 'SNSに頼らず、検索から静かに読まれるような記事をじっくり育てたいあなたへ。';
+      if(f.has('asset'))                   return '週1本でも、3年後に振り返ったら立派な資産になっている。そういう働き方が合っています。';
+      return 'コツコツ書いた記事が、寝ている間も読まれて収益を生む。長距離走が得意なあなたへ。';
+
+    case 'sns':
+      if(!f.has('anon') && f.has('asset')) return '50代の等身大の発信が、同世代の心に刺さる。あなたの年齢と経験、そのものが武器です。';
+      if(f.has('anon'))                    return '顔は出さなくていい。声でも文字でも、あなたの言葉が誰かの背中を押します。';
+      if(f.has('lowtime') === false)       return '続けることが最大の戦略。週2投稿を積み上げるだけで、半年後は別の景色が見えます。';
+      return '発信を続けることが資産になる。この世代の等身大の言葉は、同世代に一番届きます。';
+
+    case 'skill':
+      if(f.has('fast') && !f.has('solo')) return '20〜30年のキャリアが、今月の収入に変わる。一番早いルートです。';
+      if(f.has('fast') && f.has('solo'))  return 'テキストだけで完結する仕事から始めれば、今月中に初収入が狙えます。';
+      if(f.has('teach'))                  return '長年の経験を「教える」に変えると、あなたの知識がそのまま商品になります。';
+      return 'これまでの仕事と経験を、今こそ「売れるもの」にできるあなたへ。';
+
+    case 'handmade':
+      if(f.has('sns'))                    return '作る時間そのものが好き。そのまま副業にしてしまいましょう。';
+      if(f.has('asset'))                  return '作品を売りながら、いつかはレシピや型紙も。手仕事を二段構えの資産にできます。';
+      if(f.has('fast'))                   return '季節の行事に合わせた一点が、意外と早く売れます。まず10点作ってみましょう。';
+      return '好きなものを作って、それが誰かの喜びになり、収入にもなる。デジタル全盛のこの時代でも、ハンドメイドの人気は衰えていません。';
+
+    case 'resale':
+      if(f.has('fast') && f.has('zero'))  return 'まず今週中に1円稼ぐ。その体験が、すべての始まりになります。';
+      if(f.has('ai_anx') || f.has('lowtime')) return '難しいことは何もいりません。スマホと家の不用品だけで今日から始められます。';
+      if(f.has('asset'))                  return 'ここで身につく「売れる感覚」は、次のどの副業に進んでも一生使えます。';
+      return 'まず売れる体験を、ゼロから。その一歩が、この世代の副業の入口になります。';
+
+    default:
+      return '';
+  }
+}
+
+function showResult(){
+  const { scores, flags } = calcScores();
+  const ranked = rankRoutes(scores);
+  const topKey = ranked[0];
+  const secondKey = ranked[1];
+  const top = ROUTES[topKey];
+  const second = ROUTES[secondKey];
+
+  const raw = Math.max(scores[topKey], 0) / MAX_SCORE[topKey];
+  const pct = Math.min(98, Math.max(40, Math.round(raw * 100)));
+
+  $("r-name").textContent = top.name;
+  $("r-catch").textContent = top.catch;
+  const personaLine = getPersonaLine(topKey, flags);
+  $("r-persona").textContent = personaLine;
+  $("r-persona").style.display = personaLine ? "block" : "none";
+  $("r-match-pct").textContent = pct + "%";
+
+  const reasons = collectReasons(topKey);
+  $("r-reasons").innerHTML = reasons.map(r => "<li>" + r + "</li>").join("");
+
+  $("r-desc").textContent = top.desc;
+  $("r-timeline").textContent = top.timeline;
+  $("r-cost").textContent = top.cost;
+  $("r-goal").textContent = top.goal;
+
+  $("r-steps").innerHTML = top.steps.map((s, i) =>
+    '<div class="step"><div class="step-num">' + (i+1) + '</div>' +
+    '<div class="step-body"><b>' + s[0] + '</b><br>' + s[1] + '</div></div>'
+  ).join("");
+
+  $("r-links").innerHTML = renderLinks(top, flags);
+
+  let adviceHtml = "";
+  let shown = 0;
+  ADVICE_ORDER.forEach(f => {
+    if(shown >= 4) return;
+    if(flags.has(f) && ADVICE[f] && ADVICE[f].body[topKey]){
+      adviceHtml += '<div class="advice-box"><div class="advice-head">' +
+        ADVICE[f].head + '</div>' + ADVICE[f].body[topKey] + '</div>';
+      shown++;
+    }
+  });
+  if(adviceHtml === ""){
+    adviceHtml = '<div class="advice-box"><div class="advice-head">バランス型のあなたへ</div>' +
+      '回答に大きな偏りがなく、複数のルートに適性があります。迷ったら「' + top.name +
+      '」を3ヶ月だけ試し、合わなければ2位のルートに切り替える、と期限を決めて動いてみましょう。最初の選択の正しさより、「3ヶ月続けてみて判断する」ことのほうがずっと大切ですよ。</div>';
+  }
+  $("r-advice").innerHTML = adviceHtml;
+
+  $("r-second").innerHTML =
+    '<span class="second-label">第2候補</span>' +
+    '<div class="second-name">' + second.name + '</div>' +
+    '<p>' + second.catch + '。1位のルートを3ヶ月続けて合わないと感じたら、こちらへの切り替えを検討してみてください。</p>';
+
+  $("screen-quiz").classList.add("hidden");
+  $("screen-result").classList.remove("hidden");
+  $("screen-result").classList.add("fade-in");
+  window.scrollTo({top:0});
+
+  requestAnimationFrame(() => {
+    setTimeout(() => { $("r-match-bar").style.width = pct + "%"; }, 80);
+  });
+}
+
+function restart(){
+  $("r-match-bar").style.width = "0";
+  startQuiz();
+}
+</script>
+</body>
+</html>
