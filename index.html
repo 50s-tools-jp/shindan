@@ -195,6 +195,37 @@ table.cmp th,table.cmp td{border:1px solid var(--line);padding:8px 9px;text-alig
 table.cmp th{background:var(--soft);font-size:.8rem;white-space:nowrap}
 table.cmp td:first-child{font-weight:700;white-space:nowrap}
 
+/* ---------- 比較表ルートボタン ---------- */
+.cmp-route-btn{
+  background:none;border:none;padding:0;
+  color:var(--primary);font-weight:700;font-size:.82rem;
+  cursor:pointer;text-decoration:underline;text-underline-offset:3px;
+  font-family:inherit;text-align:left;
+}
+.cmp-route-btn:hover{color:var(--accent)}
+
+/* ---------- 表示モードバナー ---------- */
+#view-mode-banner{
+  display:none;
+  background:var(--accent-soft);border:1.5px solid var(--accent);
+  border-radius:10px;padding:10px 14px;margin-bottom:18px;
+  font-size:.88rem;color:var(--ink);line-height:1.6;
+}
+#view-mode-banner b{color:var(--accent);font-weight:900}
+#back-to-top-btn{
+  background:none;border:1.5px solid var(--primary);
+  color:var(--primary);font-weight:700;font-size:.85rem;
+  border-radius:8px;padding:5px 12px;cursor:pointer;
+  font-family:inherit;margin-top:6px;display:inline-block;
+}
+#back-to-top-btn:hover{background:var(--soft)}
+
+/* ---------- 第二候補クリッカブル ---------- */
+.second-card{cursor:default}
+.second-card.clickable{cursor:pointer}
+.second-card.clickable:hover{border-color:var(--primary);background:var(--soft)}
+.second-hint{font-size:.78rem;color:var(--accent);margin-top:6px;font-weight:700}
+
 .credit{
   margin-top:30px;font-size:.78rem;color:var(--ink-soft);text-align:left;
   border-top:1px solid var(--line);padding-top:14px;line-height:1.7;
@@ -249,6 +280,14 @@ table.cmp td:first-child{font-weight:700;white-space:nowrap}
 
   <!-- ===== 結果画面 ===== -->
   <section id="screen-result" class="hidden">
+
+    <!-- 表示モードバナー（第2候補・比較表から閲覧時のみ表示） -->
+    <div id="view-mode-banner">
+      <b id="banner-label"></b><br>
+      <span id="banner-sub"></span><br>
+      <button id="back-to-top-btn" onclick="backToMyResult()">← あなたの1位に戻る</button>
+    </div>
+
     <div class="result-board">
       <p class="result-eyebrow">あなたの診断結果</p>
       <h2 class="result-name" id="r-name"></h2>
@@ -269,7 +308,7 @@ table.cmp td:first-child{font-weight:700;white-space:nowrap}
     "></div>
     </div>
 
-    <h3 class="section-title">このルートが選ばれた理由</h3>
+    <h3 class="section-title" id="title-reasons">このルートが選ばれた理由</h3>
     <ul class="reason-list" id="r-reasons"></ul>
 
     <h3 class="section-title">どんな副業?</h3>
@@ -286,24 +325,24 @@ table.cmp td:first-child{font-weight:700;white-space:nowrap}
     <h3 class="section-title">使うプラットフォーム(公式サイト)</h3>
     <div class="links" id="r-links"></div>
 
-    <h3 class="section-title">あなたへのリアルアドバイス</h3>
+    <h3 class="section-title" id="title-advice">あなたへのリアルアドバイス</h3>
     <div id="r-advice"></div>
 
     <h3 class="section-title">2番目に合うルート</h3>
-    <div class="second-card" id="r-second"></div>
+    <div class="second-card clickable" id="r-second" onclick="showRouteFromSecond()" role="button" tabindex="0" aria-label="第2候補のルートを表示"></div>
 
     <details class="compare">
       <summary>7つのルートをまとめて比較する</summary>
       <div class="compare-inner">
         <table class="cmp">
           <tr><th>ルート</th><th>初期費用</th><th>収入までの期間</th><th>型</th><th>こんな人向き</th></tr>
-          <tr><td>デジタル素材販売</td><td>0円〜※</td><td>3ヶ月〜</td><td>資産型</td><td>画像・デザイン作りが好き・匿名希望</td></tr>
-          <tr><td>文章・情報コンテンツ販売</td><td>0円</td><td>3ヶ月〜</td><td>資産型</td><td>書くのが好き・経験を伝えたい</td></tr>
-          <tr><td>ブログ×アフィリエイト</td><td>0〜月1,500円</td><td>半年〜1年</td><td>資産型</td><td>コツコツ続けられる・SNSが苦手</td></tr>
-          <tr><td>SNS・動画での情報発信</td><td>0円〜</td><td>半年〜</td><td>資産型寄り</td><td>発信を楽しめる・継続できる</td></tr>
-          <tr><td>ハンドメイド・手作り品販売</td><td>材料費数千円〜</td><td>1〜3ヶ月</td><td>労働型寄り</td><td>手を動かして作るのが好き</td></tr>
-          <tr><td>スキル・作業の受注</td><td>0円</td><td>1ヶ月〜</td><td>労働型</td><td>早く収入が欲しい・経験を活かしたい</td></tr>
-          <tr><td>不用品販売→小さな物販</td><td>0円</td><td>今週から</td><td>労働型</td><td>まず1円でも稼ぐ体験をしたい</td></tr>
+          <tr><td><button class="cmp-route-btn" data-route="digital">デジタル素材販売</button></td><td>0円〜※</td><td>3ヶ月〜</td><td>資産型</td><td>画像・デザイン作りが好き・匿名希望</td></tr>
+          <tr><td><button class="cmp-route-btn" data-route="note">文章・情報コンテンツ販売</button></td><td>0円</td><td>3ヶ月〜</td><td>資産型</td><td>書くのが好き・経験を伝えたい</td></tr>
+          <tr><td><button class="cmp-route-btn" data-route="blog">ブログ×アフィリエイト</button></td><td>0〜月数千円</td><td>半年〜1年</td><td>資産型</td><td>コツコツ続けられる・SNSが苦手</td></tr>
+          <tr><td><button class="cmp-route-btn" data-route="sns">SNS・動画での情報発信</button></td><td>0円〜</td><td>半年〜</td><td>資産型寄り</td><td>発信を楽しめる・継続できる</td></tr>
+          <tr><td><button class="cmp-route-btn" data-route="handmade">ハンドメイド・手作り品販売</button></td><td>材料費数千円〜</td><td>1〜3ヶ月</td><td>労働型寄り</td><td>手を動かして作るのが好き</td></tr>
+          <tr><td><button class="cmp-route-btn" data-route="skill">スキル・作業の受注</button></td><td>0円</td><td>1ヶ月〜</td><td>労働型</td><td>早く収入が欲しい・経験を活かしたい</td></tr>
+          <tr><td><button class="cmp-route-btn" data-route="resale">不用品販売→小さな物販</button></td><td>0円</td><td>今週から</td><td>労働型</td><td>まず1円でも稼ぐ体験をしたい</td></tr>
         </table>
       </div>
     </details>
@@ -904,75 +943,166 @@ function getPersonaLine(routeKey, flags) {
   }
 }
 
+/* =========================================================
+   結果表示の状態管理
+========================================================= */
+let myTopKey = null;   // 診断で出た本来の1位
+let mySecondKey = null; // 診断で出た本来の2位
+let myFlags = null;
+let myScores = null;
+
 function showResult(){
   const { scores, flags } = calcScores();
   const ranked = rankRoutes(scores);
-  const topKey = ranked[0];
-  const secondKey = ranked[1];
-  const top = ROUTES[topKey];
-  const second = ROUTES[secondKey];
+  myTopKey = ranked[0];
+  mySecondKey = ranked[1];
+  myFlags = flags;
+  myScores = scores;
 
-  const raw = Math.max(scores[topKey], 0) / MAX_SCORE[topKey];
-  const pct = Math.min(98, Math.max(40, Math.round(raw * 100)));
-
-  $("r-name").textContent = top.name;
-  $("r-catch").textContent = top.catch;
-  const personaLine = getPersonaLine(topKey, flags);
-  $("r-persona").textContent = personaLine;
-  $("r-persona").style.display = personaLine ? "block" : "none";
-  $("r-match-pct").textContent = pct + "%";
-
-  const reasons = collectReasons(topKey);
-  $("r-reasons").innerHTML = reasons.map(r => "<li>" + r + "</li>").join("");
-
-  $("r-desc").textContent = top.desc;
-  $("r-timeline").textContent = top.timeline;
-  $("r-cost").textContent = top.cost;
-  $("r-goal").textContent = top.goal;
-
-  $("r-steps").innerHTML = top.steps.map((s, i) =>
-    '<div class="step"><div class="step-num">' + (i+1) + '</div>' +
-    '<div class="step-body"><b>' + s[0] + '</b><br>' + s[1] + '</div></div>'
-  ).join("");
-
-  $("r-links").innerHTML = renderLinks(top, flags);
-
-  let adviceHtml = "";
-  let shown = 0;
-  ADVICE_ORDER.forEach(f => {
-    if(shown >= 4) return;
-    if(flags.has(f) && ADVICE[f] && ADVICE[f].body[topKey]){
-      adviceHtml += '<div class="advice-box"><div class="advice-head">' +
-        ADVICE[f].head + '</div>' + ADVICE[f].body[topKey] + '</div>';
-      shown++;
-    }
-  });
-  if(adviceHtml === ""){
-    adviceHtml = '<div class="advice-box"><div class="advice-head">バランス型のあなたへ</div>' +
-      '回答に大きな偏りがなく、複数のルートに適性があります。迷ったら「' + top.name +
-      '」を3ヶ月だけ試し、合わなければ2位のルートに切り替える、と期限を決めて動いてみましょう。最初の選択の正しさより、「3ヶ月続けてみて判断する」ことのほうがずっと大切ですよ。</div>';
-  }
-  $("r-advice").innerHTML = adviceHtml;
-
-  $("r-second").innerHTML =
-    '<span class="second-label">第2候補</span>' +
-    '<div class="second-name">' + second.name + '</div>' +
-    '<p>' + second.catch + '。1位のルートを3ヶ月続けて合わないと感じたら、こちらへの切り替えを検討してみてください。</p>';
+  renderResult(myTopKey, "top");
 
   $("screen-quiz").classList.add("hidden");
   $("screen-result").classList.remove("hidden");
   $("screen-result").classList.add("fade-in");
   window.scrollTo({top:0});
+}
 
+/* mode: "top" | "second" | "browse" */
+function renderResult(routeKey, mode){
+  const route = ROUTES[routeKey];
+  const flags = myFlags;
+  const scores = myScores;
+
+  // バナー制御
+  const banner = $("view-mode-banner");
+  if(mode === "top"){
+    banner.style.display = "none";
+  } else if(mode === "second"){
+    banner.style.display = "block";
+    $("banner-label").textContent = "第2候補として表示中：" + route.name;
+    $("banner-sub").textContent = "あなたの診断1位は「" + ROUTES[myTopKey].name + "」です。";
+  } else {
+    banner.style.display = "block";
+    $("banner-label").textContent = "一覧から閲覧中：" + route.name;
+    $("banner-sub").textContent = "あなたの診断1位は「" + ROUTES[myTopKey].name + "」です。";
+  }
+
+  const raw = Math.max((scores[routeKey] || 0), 0) / MAX_SCORE[routeKey];
+  const pct = Math.min(98, Math.max(40, Math.round(raw * 100)));
+
+  $("r-name").textContent = route.name;
+  $("r-catch").textContent = route.catch;
+
+  const personaLine = (mode === "top") ? getPersonaLine(routeKey, flags) : "";
+  $("r-persona").textContent = personaLine;
+  $("r-persona").style.display = personaLine ? "block" : "none";
+  $("r-match-pct").textContent = pct + "%";
+
+  const reasons = (mode === "top") ? collectReasons(routeKey) : [];
+  $("r-reasons").innerHTML = reasons.map(r => "<li>" + r + "</li>").join("");
+  $("title-reasons").style.display = reasons.length ? "" : "none";
+
+  $("r-desc").textContent = route.desc;
+  $("r-timeline").textContent = route.timeline;
+  $("r-cost").textContent = route.cost;
+  $("r-goal").textContent = route.goal;
+
+  $("r-steps").innerHTML = route.steps.map((s, i) =>
+    '<div class="step"><div class="step-num">' + (i+1) + '</div>' +
+    '<div class="step-body"><b>' + s[0] + '</b><br>' + s[1] + '</div></div>'
+  ).join("");
+
+  $("r-links").innerHTML = renderLinks(route, flags);
+
+  // アドバイス（1位表示時のみ）
+  let adviceHtml = "";
+  if(mode === "top"){
+    let shown = 0;
+    ADVICE_ORDER.forEach(f => {
+      if(shown >= 4) return;
+      if(flags.has(f) && ADVICE[f] && ADVICE[f].body[routeKey]){
+        adviceHtml += '<div class="advice-box"><div class="advice-head">' +
+          ADVICE[f].head + '</div>' + ADVICE[f].body[routeKey] + '</div>';
+        shown++;
+      }
+    });
+    if(adviceHtml === ""){
+      adviceHtml = '<div class="advice-box"><div class="advice-head">バランス型のあなたへ</div>' +
+        '回答に大きな偏りがなく、複数のルートに適性があります。迷ったら「' + route.name +
+        '」を3ヶ月だけ試し、合わなければ2位のルートに切り替える、と期限を決めて動いてみましょう。最初の選択の正しさより、「3ヶ月続けてみて判断する」ことのほうがずっと大切ですよ。</div>';
+    }
+  }
+  $("r-advice").innerHTML = adviceHtml;
+  $("title-advice").style.display = adviceHtml ? "" : "none";
+
+  // 第2候補（現在表示中でないルートの中から2位を選ぶ）
+  const ranked = rankRoutes(scores);
+  const altKey = (routeKey === myTopKey)
+    ? mySecondKey
+    : myTopKey;
+  const alt = ROUTES[altKey];
+
+  $("r-second").innerHTML =
+    '<span class="second-label">第2候補</span>' +
+    '<div class="second-name">' + alt.name + '</div>' +
+    '<p>' + alt.catch + '。' +
+    (routeKey === myTopKey
+      ? '1位のルートを3ヶ月続けて合わないと感じたら、こちらへの切り替えを検討してみてください。'
+      : 'これがあなたの診断1位のルートです。タップして詳細を見てみましょう。') +
+    '</p>' +
+    '<p class="second-hint">👆 タップして詳細を見る</p>';
+
+  // 第2候補カードにクリックイベント（data属性でキー渡し）
+  const secondCard = $("r-second");
+  secondCard.dataset.altKey = altKey;
+  secondCard.dataset.altMode = (routeKey === myTopKey) ? "second" : "top";
+
+  $("r-match-bar").style.width = "0";
   requestAnimationFrame(() => {
     setTimeout(() => { $("r-match-bar").style.width = pct + "%"; }, 80);
   });
 }
 
+function showRouteFromSecond(){
+  const card = $("r-second");
+  const key = card.dataset.altKey;
+  const mode = card.dataset.altMode;
+  renderResult(key, mode);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function showRouteFromTable(routeKey){
+  if(!myTopKey) return; // 診断未完了なら無視
+  const mode = (routeKey === myTopKey) ? "top" : "browse";
+  renderResult(routeKey, mode);
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function backToMyResult(){
+  renderResult(myTopKey, "top");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
 function restart(){
   $("r-match-bar").style.width = "0";
+  myTopKey = null;
+  mySecondKey = null;
+  myFlags = null;
+  myScores = null;
   startQuiz();
 }
+
+// 比較表ボタンのイベント委譲（DOMロード後に設定）
+document.addEventListener("DOMContentLoaded", function(){
+  document.querySelector(".compare-inner").addEventListener("click", function(e){
+    const btn = e.target.closest(".cmp-route-btn");
+    if(btn) showRouteFromTable(btn.dataset.route);
+  });
+  // 第2候補カードのキーボード操作
+  $("r-second").addEventListener("keydown", function(e){
+    if(e.key === "Enter" || e.key === " ") showRouteFromSecond();
+  });
+});
 </script>
 </body>
 </html>
